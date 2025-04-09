@@ -72,4 +72,74 @@
 
         // <?php echo $ok = <?= $ok
 
+
+
+
+
+
+        // superglobals
+        // print_r($_SERVER["HTTP_HOST"]);
+
+        session_start();
+
+        // $_SESSION["username"]="Vitalij";
+
+        
+
+        session_destroy();
+
+
+        // print_r($_SESSION);
+
+
+        $_COOKIE;
+        // unset($_COOKIE);
+        // print_r($_COOKIE);
+
+
+
+        // $_ENV
+
+
+        // $_FILES
+        // echo "Output GET params";
+        // print_r($_GET);
+        // if(isset($_GET["name"]) && $_GET["name"]=="Jurij"){
+        //     echo "Jurij is active";
+        // }else if(isset($_GET["name"]) && $_GET["name"]=="Vitalij"){
+        //     echo "Jurij is inactive";
+        //     echo "Vitalij is active";
+        // }
+
+        // echo "Output POST params";
+        // print_r($_POST);
+
+
+
+        // 
+
+        $username="admin";
+        $password="Qwerty!12345";
+
+
+        if(
+            $_POST["username"]==$username 
+        &&  $_POST["password"]===$password
+    ){
+        session_start();
+        $_SESSION["username"]=$username;
+        $_SESSION["user_logged_in"]=true;
+        echo "Password is valid";
+
+    }else{
+        unset($_SESSION["username"]);
+        $_SESSION["user_logged_in"]=false;
+        echo "Password is invalid";
+    };
+
+
+
+
+
+
 ?>

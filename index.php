@@ -1,11 +1,11 @@
 <?php 
    include 'data.php';
-
    include 'head.php';
 ?>
 
     <head>
         <?php  include 'nav.php';?>
+        <h1><?=$_SESSION["username"]?></h1>
     </head>
     
     <main>
