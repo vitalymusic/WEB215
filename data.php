@@ -120,21 +120,21 @@
 
         $username="admin";
         $password="Qwerty!12345";
-
+        session_start();
 
         if(
             $_POST["username"]==$username 
         &&  $_POST["password"]===$password
     ){
-        session_start();
+       
         $_SESSION["username"]=$username;
         $_SESSION["user_logged_in"]=true;
-        echo "Password is valid";
+        header('Location: admin.php');
 
     }else{
         unset($_SESSION["username"]);
         $_SESSION["user_logged_in"]=false;
-        echo "Password is invalid";
+        header('Location: login.php');
     };
 
 
