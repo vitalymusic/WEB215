@@ -2,17 +2,29 @@
    include 'data.php';
    include 'head.php';
 ?>
-
     <head>
         <?php  include 'nav.php';?>
-        <h1><?=$_SESSION["username"]?></h1>
     </head>
-    
     <main>
-        <h1><?=$content["h1"]?></h1>
-        <h2><?=$content["h1"]?></h2>
-        <p><?=$content["p"]?></p>   
-        <img src="<?=$content["img"]?>" alt="image1" width="500">  
+        <?php
+        
+            switch($_GET["page"]){
+                case "index":showPage(0);break;
+                case "about":showPage(1);break;
+                case "contacts":showPage(2);break;
+                default:showPage(404);break;
+            } 
+             function showPage($id){
+                    global $content;
+                    if($id==404){
+                        echo "<h1>Page not found</h1>";
+                        return;
+                    }
+                   echo "<h1>{$content[$id]["h1"]}</h1>"; 
+                   echo "<p>{$content[$id]["p"]}</p>"; 
+                   echo "<img src=\"{$content[$id]["img"]}\" alt=\"image1\" width=\"500\"> "; 
+             }
+        ?>
     </main>
     <?php  include 'footer.php';?>
 

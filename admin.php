@@ -79,7 +79,7 @@
     <a href="#">Users</a>
     <a href="#">Settings</a>
     <a href="#">Logs</a>
-    <a href="#">Logout</a>
+    <a href="data.php?logout=true">Logout</a>
   </div>
 
   <div class="main-content">

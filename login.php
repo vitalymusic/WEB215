@@ -1,3 +1,4 @@
+<?php //var_dump($_COOKIE)?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,6 +47,9 @@
   </style>
 </head>
 <body>
+    
+    
+
   <div class="login-container">
     <h2>Login</h2>
     <form action="data.php" method="post">
@@ -53,6 +57,17 @@
       <input type="password" name="password" placeholder="Password" required />
       <button type="submit">Login</button>
     </form>
+
+    <?php 
+        if(isset($_COOKIE["login_error"])){
+            echo "
+                <div class=\"error\">
+                    <h3>{$_COOKIE["login_error"]}</h3>
+                </div>
+            ";
+        }
+    ?>
+    
   </div>
 </body>
 </html>

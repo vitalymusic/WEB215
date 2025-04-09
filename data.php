@@ -52,23 +52,37 @@
         $nav = [
             [
             "title" =>"Main",
-            "href" =>"index.php"
+            "href" =>"index.php?page=index"
             ],
             [
                 "title" =>"About Us",
-                "href" =>"about.php"
+                "href" =>"index.php?page=about"
             ],
             [
                 "title" =>"Contacts",
-                "href" =>"contacts.php"
+                "href" =>"index.php?page=contacts"
             ],
 
         ];
 
+        $content = [
+            [
+                "h1"=>"Main",
+                "p"=>'PHP is a general-purpose scripting language geared towards web development.[8] It was originally created by Danish-Canadian programmer Rasmus Lerdorf in 1993 and released in 1995.[9][10] The PHP reference implementation is now produced by the PHP Group.[11] PHP was originally an abbreviation of Personal Home Page,[12][13] but it now stands for the recursive acronym PHP: Hypertext Preprocessor.[14] Below is a "Hello World!" program in PHP.',
+                "img"=>$url
+            ],
+            [
+                "h1"=>"About",
+                "p"=>'This is about page',
+                "img"=>$url
+            ],
+            [
+                "h1"=>"Contacts",
+                "p"=>'This is contacts page',
+                "img"=>$url
+            ],
 
-        $content["h1"] = $title;
-        $content["p"]='PHP is a general-purpose scripting language geared towards web development.[8] It was originally created by Danish-Canadian programmer Rasmus Lerdorf in 1993 and released in 1995.[9][10] The PHP reference implementation is now produced by the PHP Group.[11] PHP was originally an abbreviation of Personal Home Page,[12][13] but it now stands for the recursive acronym PHP: Hypertext Preprocessor.[14] Below is a "Hello World!" program in PHP.';
-        $content["img"]=$url;
+        ];
 
         // <?php echo $ok = <?= $ok
 
@@ -80,19 +94,19 @@
         // superglobals
         // print_r($_SERVER["HTTP_HOST"]);
 
-        session_start();
+        // session_start();
 
         // $_SESSION["username"]="Vitalij";
 
         
 
-        session_destroy();
+        // session_destroy();
 
 
         // print_r($_SESSION);
 
 
-        $_COOKIE;
+        // $_COOKIE;
         // unset($_COOKIE);
         // print_r($_COOKIE);
 
@@ -118,6 +132,10 @@
 
         // 
 
+        if($_POST){
+
+        
+
         $username="admin";
         $password="Qwerty!12345";
         session_start();
@@ -129,17 +147,25 @@
        
         $_SESSION["username"]=$username;
         $_SESSION["user_logged_in"]=true;
+        setcookie("login_error",'',time()-1000);
         header('Location: admin.php');
 
     }else{
         unset($_SESSION["username"]);
         $_SESSION["user_logged_in"]=false;
+        setcookie("login_error","Login or password is incorrect");
         header('Location: login.php');
     };
 
 
+}
 
-
+    if(isset($_GET["logout"]) && $_GET["logout"]==true){
+        unset($_SESSION["username"]);
+        $_SESSION["user_logged_in"]=false;
+        setcookie("login_error",'',time()-1000);
+        header('Location: login.php');
+    }
 
 
 ?>
