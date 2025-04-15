@@ -24,8 +24,35 @@
                    echo "<p>{$content[$id]["p"]}</p>"; 
                    echo "<img src=\"{$content[$id]["img"]}\" alt=\"image1\" width=\"500\"> "; 
              }
+
+
+
+
         ?>
     </main>
+    <div class="container">
+        <?php 
+
+            $sql = "SELECT * FROM `pages`;";
+
+            $result = $conn->query($sql);
+            // print_r($result);
+            // exit();
+
+            if ($result->num_rows > 0) {
+              // output data of each row
+              while($row = $result->fetch_assoc()) {
+                echo "id: " . $row["id"]. " - Menu name: " . $row["menu_name"]. "<br>Content:" . $row["content"]. "<br>";
+              }
+            } else {
+              echo "0 results";
+            }
+            
+            $conn->close();
+            ?>
+
+
+    </div>
     <?php  include 'footer.php';?>
 
 

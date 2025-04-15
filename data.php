@@ -3,6 +3,9 @@
     // echo phpinfo();
 
 
+    include_once('database.php');
+
+
     $var1 = 10;
 
     define("CONST1","username");
