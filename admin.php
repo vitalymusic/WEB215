@@ -105,7 +105,7 @@
           <!-- PHP -->
 
           <?php 
-            $sql = "SELECT * FROM `sample_users` limit 30;";
+            $sql = "SELECT * FROM `sample_users` ORDER BY `sample_users`.`id` ASC";
 
             $result = $conn->query($sql);
   
@@ -185,7 +185,18 @@
         <input type="tel" class="form-control" name="phone" id="phone" placeholder="Enter phone number" value="<?=$row["phone"]?>">
       </div>
       <button type="submit" class="btn btn-primary">Save Changes</button>
+      <button  class="btn btn-danger" id="delUser" data-id="<?=$row["id"]?>">Delete User</button>
     </form>
+
+    <script>
+        document.querySelector("#delUser").onclick = (e)=>{
+          let userId = e.target.dataset.id;
+          if(confirm("Are you sure?")){
+            fetch("./admin.php?action=delete&userID="+userId);
+            location.reload("admin.php?page=users");
+          }
+        }
+    </script>
 
 
 
@@ -228,6 +239,27 @@
 
   }
 }
+
+
+if(isset($_GET["action"]) && isset($_GET["userID"]))
+{
+  if($_GET["action"]=="delete" &&  $_GET["id"] !== ""){
+    $id = mysqli_real_escape_string($conn,$_GET["userID"]);
+    $sql = "DELETE FROM `sample_users` WHERE id={$id}";
+    $result = $conn->query($sql);
+    
+    if(!$result){
+        echo $conn->error;
+    }
+  }
+
+}
+
+
+
+// Add new User
+
+
 
 
 ?>
