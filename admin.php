@@ -1,4 +1,7 @@
 <?php 
+    include_once('database.php');
+
+
     session_start();
     if(
         !isset($_SESSION["username"]) 
@@ -88,16 +91,45 @@
     </div>
     <div class="content">
      
-      <?php if(isset($_GET["page"]) && $_GET["page"]=="users"): ?>
+      <?php if(isset($_GET["page"]) && $_GET["page"]=="users") :?>
         <h3>Users</h3>
 
-        <table>
+        <table class="table table-bordered">
           <tr>
-
+              <td>Name</td>
+              <td>Surname</td>
+              <td>Email</td>
+              <td>Phone</td>
           </tr>
 
+          <!-- PHP -->
+
+          <?php 
+            $sql = "SELECT * FROM `sample_users` limit 30;";
+
+            $result = $conn->query($sql);
+  
+
+            if ($result->num_rows > 0) {
+              // output data of each row
+              while($row = $result->fetch_assoc()): ?>
+                <tr>
+                  <td><?= $row["firstName"]?></td>
+                  <td><?= $row["lastName"]?></td>
+                  <td><?= $row["email"]?></td>
+                  <td><?= $row["phone"]?></td>
+                  <td><a href="./admin.php?page=edit&userid=<?= $row["id"]?>" class="btn btn-primary">Edit User data</a></td>
+                <tr>
+                
+                <?php  endwhile;
+            } else {
+              echo "0 results";
+            }
+            ?>
         </table>
-      <?php endif ?>  
+
+      <?php  endif ?> 
+
 
       <?php if(!isset($_GET["page"])): ?>
         <h3>Dashboard</h3>  
@@ -108,8 +140,94 @@
 
 
 
+      <!-- edit user -->
+
+
+      <?php if(isset($_GET["page"]) && $_GET["page"]=="edit") :?>
+
+          <?php 
+            $sql = "SELECT * FROM `sample_users` where id={$_GET["userid"]}";
+
+            $result = $conn->query($sql);
+  
+
+            if ($result->num_rows > 0) {
+                $row = $result->fetch_assoc();
+                // var_dump($row);
+            }
+            
+          ?>
+
+
+
+
+        <h3>Edit user</h3>
+
+            <!-- CRUD -->
+
+        <form action="./admin.php" method="POST">
+            <input type="hidden" name="id" value="<?=$row["id"]?>">
+            <input type="hidden" name="action" value="update">
+      <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" name="name" id="name" placeholder="Enter name" value="<?=$row["firstName"]?>">
+      </div>
+      <div class="mb-3">
+        <label for="surname" class="form-label">Surname</label>
+        <input type="text" class="form-control" name="surname" id="surname" placeholder="Enter surname" value="<?=$row["lastName"]?>">
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input type="email" class="form-control" name="email" id="email" placeholder="Enter email" value="<?=$row["email"]?>">
+      </div>
+      <div class="mb-3">
+        <label for="phone" class="form-label">Phone</label>
+        <input type="tel" class="form-control" name="phone" id="phone" placeholder="Enter phone number" value="<?=$row["phone"]?>">
+      </div>
+      <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+
+
+
+      <?php endif ?>    
+
+
+
+
+
     </div>
   </div>
 
 </body>
 </html>
+
+
+<?php 
+  if(isset($_POST["id"]) && isset($_POST["action"])){
+    if($_POST["id"]!=="" && $_POST["action"]=="update"){
+      $firstName = mysqli_real_escape_string($conn,$_POST["name"]);
+      $lastName = mysqli_real_escape_string($conn,$_POST["surname"]);
+      $email = mysqli_real_escape_string($conn,$_POST["email"]);
+      $phone = mysqli_real_escape_string($conn,$_POST["phone"]);
+
+
+    $sql = "UPDATE `sample_users` SET 
+    `firstName`='{$firstName}',
+    `lastName`='{$lastName}',
+    `email`='{$email}',
+    `phone`='{$phone}' where id={$_POST["id"]}";
+    $result = $conn->query($sql);
+    
+
+    if(!$result){
+        echo $conn->error;
+    }
+    else{
+      header("Location:./admin.php?page=users");
+    }
+
+  }
+}
+
+
+?>
