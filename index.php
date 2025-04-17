@@ -48,11 +48,16 @@
               echo "0 results";
             }
             
-            $conn->close();
+            
             ?>
 
 
     </div>
     <?php  include 'footer.php';?>
+
+
+    <?php 
+      $conn->close();
+    ?>
 
 
